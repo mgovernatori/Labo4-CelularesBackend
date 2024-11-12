@@ -38,6 +38,16 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<AuthFilter>();
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", builder =>
+    {
+        builder.AllowAnyOrigin() 
+               .AllowAnyMethod() 
+               .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddScoped<CelularServices>();
 builder.Services.AddScoped<MarcaServices>();
 builder.Services.AddScoped<SistemaServices>();
