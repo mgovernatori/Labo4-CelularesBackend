@@ -56,13 +56,16 @@ namespace CelularesAPI.Services
 
             var coloresCelular = await _coloresCelularRepository.GetAll(cc => cc.IdCelular == id);
 
+            var ids = coloresCelular.Select(cc => cc.IdColor).ToList(); 
+            var todosColores = await _colorServices.GetAllFromCelular(ids);
+
+            var coloresDict = todosColores.ToDictionary(c => c.Id, c => c); 
+
             var coloresImagen = new List<ColorImagen>();
 
             foreach (var cc in coloresCelular)
             {
-                var color = await _colorServices.GetOneById(cc.IdColor);
-
-                if (color != null)
+                if (coloresDict.TryGetValue(cc.IdColor, out var color))
                 {
                     coloresImagen.Add(new ColorImagen
                     {

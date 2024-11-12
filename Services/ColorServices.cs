@@ -31,6 +31,11 @@ namespace CelularesAPI.Services
             return color;
         }
 
+        public async Task<List<Color>> GetAllFromCelular(List<int> ids)
+        {
+            var colores = await _colorRepository.GetAll(c => ids.Contains(c.Id));
+            return colores.ToList();
+        }
 
 
         public async Task<Color> CreateOne(Color color)
