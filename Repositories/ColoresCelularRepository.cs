@@ -12,7 +12,5 @@ namespace CelularesAPI.Repositories
     public class ColoresCelularRepository : Repository<ColoresCelular>, IColoresCelularRepository
     {
         public ColoresCelularRepository(AppDbContext context) : base(context) { }
-
-
     }
 }

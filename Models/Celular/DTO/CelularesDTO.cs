@@ -7,6 +7,11 @@
         public string Modelo { get; set; } = null!;
         public Sistema.Sistema Sistema { get; set; } = null!;
         public string Almacenamiento { get; set; } = null!;
+        public string Imagen {  get; set; } = null!;
+
         public string Precio { get; set; } = null!;
+
+
+
     }
 }

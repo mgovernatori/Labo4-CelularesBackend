@@ -84,7 +84,30 @@ namespace CelularesAPI.Services
         public async Task<List<CelularesDTO>> GetAll()
         {
             var celulares = await _celularRepository.GetAll();
-            return _mapper.Map<List<CelularesDTO>>(celulares);
+
+            var ids = celulares.Select(c => c.Id).ToList();
+
+            var colores = await _coloresCelularRepository.GetAll(cc => ids.Contains(cc.IdCelular));
+
+            var coloresDict = colores.
+                GroupBy(cc => cc.IdCelular).
+                ToDictionary(g => g.Key, g => g.First().UrlImagen);
+           
+            var celsDTO = new List<CelularesDTO>();
+
+            foreach (var c in celulares)
+            {
+                var celDTO = _mapper.Map<CelularesDTO>(c);
+
+                if (coloresDict.TryGetValue(c.Id, out var urlImagen))
+                {
+                    celDTO.Imagen = urlImagen;
+                }
+
+                celsDTO.Add(celDTO);
+            }
+
+            return celsDTO;
         }
 
         public async Task<List<CelularesDTO>> GetAllByMarca(string marca)
